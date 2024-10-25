@@ -10,7 +10,7 @@ import CoreNFC
 
 class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
     @IBOutlet weak var blockNumberTextField: UITextField!
-    @IBOutlet weak var readResultOutputField: UILabel!
+    @IBOutlet weak var readResultOutputLabel: UILabel!
     var session: NFCTagReaderSession?
     var blockNumber: UInt8 = 0
     
@@ -26,12 +26,18 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
     func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
         guard let tag = tags.first else {
             print("No tags detected.")
+            DispatchQueue.main.async {
+                self.readResultOutputLabel.text = "Error: No tags detected."
+            }
             return
         }
         
         session.connect(to: tag) { (error) in
             if let error = error {
                 print("Error connecting to tag: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.readResultOutputLabel.text = "Error: Connection error. Please try again."
+                }
                 session.invalidate(errorMessage: "Connection error. Please try again.")
                 return
             }
@@ -41,6 +47,9 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
                 self.readTag(session: session, iso15693Tag: iso15693Tag)
             default:
                 print("Unsupported tag type.")
+                DispatchQueue.main.async {
+                    self.readResultOutputLabel.text = "Error: Unsupported tag."
+                }
                 session.invalidate(errorMessage: "Unsupported tag.")
             }
         }
@@ -49,21 +58,27 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
     func readTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
         guard let tag = iso15693Tag else {
             print("No tag available to write.")
+            DispatchQueue.main.async {
+                self.readResultOutputLabel.text = "Error: No tag available to read."
+            }
             return
         }
         
         tag.readSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: self.blockNumber) { (data, error) in
             if let error = error {
                 print("Error reading block: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.readResultOutputLabel.text = "Error: \(error.localizedDescription)"
+                }
                 return
             }
             
             print("Data read from block \(self.blockNumber): \(data)")
             let hexString = data.map { String(format: "%02x", $0) }.joined()
-            print("Data in hex: \(hexString)")
+            print("Data in hex: \(hexString.uppercased())")
             
             DispatchQueue.main.async {
-                self.readResultOutputField.text = hexString.uppercased()
+                self.readResultOutputLabel.text = hexString.uppercased()
             }
             session.invalidate()
         }
@@ -83,11 +98,17 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
             )
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.readResultOutputLabel.text = "Error: Scanning not supported on this device."
+            }
             return
         }
         
         guard let text = blockNumberTextField.text, let blockNumber: UInt8 = UInt8(text) else {
             print("Invalid block number.")
+            DispatchQueue.main.async {
+                self.readResultOutputLabel.text = "Error: Invalid block number."
+            }
             return
         }
         self.blockNumber = blockNumber;

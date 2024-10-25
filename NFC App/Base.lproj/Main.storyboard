@@ -83,7 +83,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="wTC-A1-Xff" userLabel="VStack">
-                                <rect key="frame" x="20" y="175" width="353" height="244.33333333333337"/>
+                                <rect key="frame" x="20" y="175" width="353" height="194.33333333333337"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cN8-9D-Crk" userLabel="HStack">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
@@ -123,8 +123,8 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvg-GC-Xb3" userLabel="ReadResultOutput">
-                                        <rect key="frame" x="0.0" y="194.33333333333331" width="353" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvg-GC-Xb3" userLabel="ReadResultOutput">
+                                        <rect key="frame" x="0.0" y="194.33333333333331" width="353" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -143,7 +143,7 @@
                     <navigationItem key="navigationItem" id="1aw-aK-sDA"/>
                     <connections>
                         <outlet property="blockNumberTextField" destination="muX-QY-x7d" id="fl3-ed-lKh"/>
-                        <outlet property="readResultOutputField" destination="hvg-GC-Xb3" id="5rK-rb-JCi"/>
+                        <outlet property="readResultOutputLabel" destination="hvg-GC-Xb3" id="NIo-E4-YAq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uhX-4n-sDk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="rBM-ij-JXt" userLabel="VStack1">
-                                <rect key="frame" x="20" y="175" width="353" height="178"/>
+                                <rect key="frame" x="20" y="175" width="353" height="208"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SDF-xV-9yg" userLabel="HStack1">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
@@ -188,7 +188,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0x12345678" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KLi-7H-43R" userLabel="DataField">
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0x1234567890ABCDEF" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KLi-7H-43R" userLabel="DataField">
                                                 <rect key="frame" x="56.333333333333343" y="0.0" width="296.66666666666663" height="34"/>
                                                 <color key="backgroundColor" red="0.11372549019607843" green="0.11372549019607843" blue="0.12549019607843137" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -210,6 +210,12 @@
                                             <action selector="sendCommand:" destination="y1v-Dp-RmY" eventType="touchUpInside" id="P9H-7i-Zez"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0h-Zc-6Ml" userLabel="WriteResultOutput">
+                                        <rect key="frame" x="0.0" y="208" width="353" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -225,6 +231,7 @@
                     <connections>
                         <outlet property="blockNumberTextField" destination="gIk-6M-KxN" id="6ow-Iy-6jb"/>
                         <outlet property="dataTextField" destination="KLi-7H-43R" id="uXD-if-MPi"/>
+                        <outlet property="writeResultOutputLabel" destination="Q0h-Zc-6Ml" id="neD-5V-NJx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzB-AE-PaY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
