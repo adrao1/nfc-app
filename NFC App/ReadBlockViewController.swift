@@ -1,15 +1,17 @@
 //
-//  ViewController.swift
+//  ReadBlockViewController.swift
 //  NFC App
 //
-//  Created by Aditya Rao on 10/10/24.
+//  Created by Aditya Rao on 10/22/24.
 //
 
 import UIKit
 import CoreNFC
 
-class ViewController: UIViewController, NFCTagReaderSessionDelegate {
+class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
+    @IBOutlet weak var blockNumberTextField: UITextField!
     var session: NFCTagReaderSession?
+    var blockNumber: UInt8 = 0
     
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
         print("Session became active. Ready to scan for tags.")
@@ -35,7 +37,7 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             
             switch tag {
             case .iso15693(let iso15693Tag):
-                print("ISO15693 tag detected.")
+                self.readTag(iso15693Tag: iso15693Tag)
                 session.invalidate()
             default:
                 print("Unsupported tag type.")
@@ -44,12 +46,30 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
         }
     }
     
+    func readTag(iso15693Tag: NFCISO15693Tag?) {
+        guard let tag = iso15693Tag else {
+            print("No tag available to write.")
+            return
+        }
+        
+        tag.readSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: self.blockNumber) { (data, error) in
+            if let error = error {
+                print("Error reading block: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Data read from block \(self.blockNumber): \(data)")
+            let hexString = data.map { String(format: "%02x", $0) }.joined()
+            print("Data in hex: \(hexString)")
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "NFC App"
+        title = "Read Block"
     }
     
-    @IBAction func scanTag(_ sender: Any) {
+    @IBAction func sendCommand(_ sender: Any) {
         guard NFCNDEFReaderSession.readingAvailable else {
             let alertController = UIAlertController(
                 title: "Scanning Not Supported",
@@ -61,9 +81,14 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             return
         }
         
+        guard let text = blockNumberTextField.text, let blockNumber: UInt8 = UInt8(text) else {
+            print("Invalid block number.")
+            return
+        }
+        self.blockNumber = blockNumber;
+
         self.session = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: nil)
         self.session?.alertMessage = "Hold your iPhone near the tag."
         self.session?.begin()
     }
 }
-
