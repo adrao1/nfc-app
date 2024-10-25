@@ -143,6 +143,7 @@
                     <navigationItem key="navigationItem" id="1aw-aK-sDA"/>
                     <connections>
                         <outlet property="blockNumberTextField" destination="muX-QY-x7d" id="fl3-ed-lKh"/>
+                        <outlet property="readResultOutputField" destination="hvg-GC-Xb3" id="5rK-rb-JCi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uhX-4n-sDk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

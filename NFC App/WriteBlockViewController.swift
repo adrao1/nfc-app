@@ -39,8 +39,7 @@ class WriteBlockViewController: UIViewController, NFCTagReaderSessionDelegate  {
             
             switch tag {
             case .iso15693(let iso15693Tag):
-                self.writeTag(iso15693Tag: iso15693Tag)
-                session.invalidate()
+                self.writeTag(session: session, iso15693Tag: iso15693Tag)
             default:
                 print("Unsupported tag type.")
                 session.invalidate(errorMessage: "Unsupported tag.")
@@ -48,13 +47,13 @@ class WriteBlockViewController: UIViewController, NFCTagReaderSessionDelegate  {
         }
     }
     
-    func writeTag(iso15693Tag: NFCISO15693Tag?) {
+    func writeTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
         guard let tag = iso15693Tag else {
             print("No tag available to write.")
             return
         }
         
-        tag.writeSingleBlock(requestFlags: [.highDataRate], blockNumber: self.blockNumber, dataBlock: self.data) { error in
+        tag.writeSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: self.blockNumber, dataBlock: self.data) { error in
             if let error = error {
                 print("Error writing block: \(error.localizedDescription)")
                 return
@@ -63,6 +62,7 @@ class WriteBlockViewController: UIViewController, NFCTagReaderSessionDelegate  {
             print("Successfully wrote to block \(self.blockNumber): \(self.data)")
             let hexString = self.data.map { String(format: "%02x", $0) }.joined()
             print("Data written in hex: \(hexString)")
+            session.invalidate()
         }
     }
     
@@ -115,7 +115,7 @@ class WriteBlockViewController: UIViewController, NFCTagReaderSessionDelegate  {
             return
         }
         
-        self.blockNumber = blockNumber
+        self.blockNumber = 10
         self.data = dataToWrite
 
         self.session = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: nil)

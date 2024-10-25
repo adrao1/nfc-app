@@ -10,6 +10,7 @@ import CoreNFC
 
 class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
     @IBOutlet weak var blockNumberTextField: UITextField!
+    @IBOutlet weak var readResultOutputField: UILabel!
     var session: NFCTagReaderSession?
     var blockNumber: UInt8 = 0
     
@@ -37,8 +38,7 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
             
             switch tag {
             case .iso15693(let iso15693Tag):
-                self.readTag(iso15693Tag: iso15693Tag)
-                session.invalidate()
+                self.readTag(session: session, iso15693Tag: iso15693Tag)
             default:
                 print("Unsupported tag type.")
                 session.invalidate(errorMessage: "Unsupported tag.")
@@ -46,7 +46,7 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
         }
     }
     
-    func readTag(iso15693Tag: NFCISO15693Tag?) {
+    func readTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
         guard let tag = iso15693Tag else {
             print("No tag available to write.")
             return
@@ -61,6 +61,11 @@ class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
             print("Data read from block \(self.blockNumber): \(data)")
             let hexString = data.map { String(format: "%02x", $0) }.joined()
             print("Data in hex: \(hexString)")
+            
+            DispatchQueue.main.async {
+                self.readResultOutputField.text = hexString.uppercased()
+            }
+            session.invalidate()
         }
     }
 
