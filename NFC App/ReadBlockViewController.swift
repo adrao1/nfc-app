@@ -8,11 +8,16 @@
 import UIKit
 import CoreNFC
 
-class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate {
+class ReadBlockViewController: UIViewController, NFCTagReaderSessionDelegate, UITextFieldDelegate {
     @IBOutlet weak var blockNumberTextField: UITextField!
     @IBOutlet weak var readResultOutputLabel: UILabel!
     var session: NFCTagReaderSession?
     var blockNumber: UInt8 = 0
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
         print("Session became active. Ready to scan for tags.")

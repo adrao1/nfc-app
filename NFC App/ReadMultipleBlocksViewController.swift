@@ -8,13 +8,19 @@
 import UIKit
 import CoreNFC
 
-class ReadMultipleBlocksViewController: UIViewController, NFCTagReaderSessionDelegate {
+class ReadMultipleBlocksViewController: UIViewController, NFCTagReaderSessionDelegate, UITextFieldDelegate {
     @IBOutlet weak var startBlockNumberTextField: UITextField!
     @IBOutlet weak var endBlockNumberTextField: UITextField!
     @IBOutlet weak var readResultOutputLabel: UILabel!
     var session: NFCTagReaderSession?
     var startBlock: UInt8 = 0
     var endBlock: UInt8 = 0
+    var combinedData = ""
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
         print("Session became active. Ready to scan for tags.")
@@ -46,7 +52,7 @@ class ReadMultipleBlocksViewController: UIViewController, NFCTagReaderSessionDel
             
             switch tag {
             case .iso15693(let iso15693Tag):
-                self.readTag(session: session, iso15693Tag: iso15693Tag)
+                self.readTagInBatches(session: session, iso15693Tag: iso15693Tag)
             default:
                 print("Unsupported tag type.")
                 DispatchQueue.main.async {
@@ -57,63 +63,57 @@ class ReadMultipleBlocksViewController: UIViewController, NFCTagReaderSessionDel
         }
     }
     
-    func readTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
+    func readTagInBatches(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
         guard let tag = iso15693Tag else {
-            print("No tag available to write.")
+            print("No tag available to read.")
             DispatchQueue.main.async {
                 self.readResultOutputLabel.text = "Error: No tag available to read."
             }
             return
         }
         
-        let startBlock = Int(self.startBlock)  // Start block number
-        let endBlock = Int(self.endBlock)      // End block number
-        let numberOfBlocks = endBlock - startBlock + 1
-        let blockRange = NSRange(location: startBlock, length: numberOfBlocks)
-        
-//        tag.readSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: self.blockNumber) { (data, error) in
-//            if let error = error {
-//                print("Error reading block: \(error.localizedDescription)")
-//                DispatchQueue.main.async {
-//                    self.readResultOutputLabel.text = "Error: \(error.localizedDescription)"
-//                }
-//                return
-//            }
-//            
-//            print("Data read from block \(self.blockNumber): \(data)")
-//            let hexString = data.map { String(format: "%02x", $0) }.joined()
-//            print("Data in hex: \(hexString.uppercased())")
-//            
-//            DispatchQueue.main.async {
-//                self.readResultOutputLabel.text = hexString.uppercased()
-//            }
-//            session.invalidate()
-        
-        tag.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange) { (dataBlocks, error) in
-            if let error = error {
-                print("Error reading blocks: \(error.localizedDescription)")
+        let startBlock = Int(self.startBlock)
+        let endBlock = Int(self.endBlock)
+        let maxBlocksPerRead = 3
+
+        func readNextBatch(currentBlock: Int) {
+            guard currentBlock <= endBlock else {
                 DispatchQueue.main.async {
-                    self.readResultOutputLabel.text = "Error: \(error.localizedDescription)"
+                    self.readResultOutputLabel.text = self.combinedData
                 }
+                session.invalidate()
                 return
             }
-            
-            // **Process each block’s data**
-            var combinedData = ""
-            for (index, data) in dataBlocks.enumerated() {
-                let hexString = data.map { String(format: "%02x", $0) }.joined()
-                combinedData += "Block \(self.startBlock + UInt8(index)): \(hexString.uppercased())\n"
-            }
-            
-            print("Data read from blocks: \n\(combinedData)")
-            
-            DispatchQueue.main.async {
-                self.readResultOutputLabel.text = combinedData
-            }
-            session.invalidate()
-        }
-    }
 
+            let blocksRemaining = endBlock - currentBlock + 1
+            let blocksToRead = min(maxBlocksPerRead, blocksRemaining)
+            let blockRange = NSRange(location: currentBlock, length: blocksToRead)
+            
+            tag.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange) { (dataBlocks, error) in
+                if let error = error {
+                    print("Error reading blocks: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.readResultOutputLabel.text = "Error: \(error.localizedDescription)"
+                    }
+                    session.invalidate()
+                    return
+                }
+                
+                for (index, data) in dataBlocks.enumerated() {
+                    let hexString = data.map { String(format: "%02x", $0) }.joined()
+                    let blockNumber = currentBlock + index
+                    self.combinedData += "Block \(blockNumber): \(hexString.uppercased())\n"
+                }
+                
+                print("Data read from blocks \(currentBlock) to \(currentBlock + blocksToRead - 1):\n\(self.combinedData)")
+                
+                readNextBatch(currentBlock: currentBlock + blocksToRead)
+            }
+        }
+        
+        readNextBatch(currentBlock: startBlock)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Read Multiple Blocks"
@@ -144,8 +144,9 @@ class ReadMultipleBlocksViewController: UIViewController, NFCTagReaderSessionDel
             return
         }
         
-        self.startBlock = startBlock;
-        self.endBlock = endBlock;
+        self.startBlock = startBlock
+        self.endBlock = endBlock
+        self.combinedData = ""
 
         self.session = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: nil)
         self.session?.alertMessage = "Hold your iPhone near the tag."
