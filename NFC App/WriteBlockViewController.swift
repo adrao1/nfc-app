@@ -14,7 +14,7 @@ class WriteBlockViewController: UIViewController, NFCTagReaderSessionDelegate  {
     @IBOutlet weak var writeResultOutputLabel: UILabel!
     var session: NFCTagReaderSession?
     var blockNumber: UInt8 = 0
-    var data: Data = Data([0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF])
+    var data: Data = Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
     
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
         print("Session became active. Ready to scan for tags.")

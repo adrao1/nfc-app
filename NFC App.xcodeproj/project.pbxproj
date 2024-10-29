@@ -18,6 +18,8 @@
 		02C518262CB87693003EBD35 /* NFC_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518252CB87693003EBD35 /* NFC_AppTests.swift */; };
 		02C518302CB87693003EBD35 /* NFC_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */; };
 		02C518322CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */; };
+		02E9D4422CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */; };
+		02E9D4442CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		02C5182B2CB87693003EBD35 /* NFC AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NFC AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITests.swift; sourceTree = "<group>"; };
 		02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadMultipleBlocksViewController.swift; sourceTree = "<group>"; };
+		02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteMultipleBlocksViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +114,9 @@
 				02C518122CB87692003EBD35 /* ViewController.swift */,
 				02C518142CB87692003EBD35 /* Main.storyboard */,
 				021499FE2CC82D5400ED3F60 /* ReadBlockViewController.swift */,
+				02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */,
 				02149A002CC82D6E00ED3F60 /* WriteBlockViewController.swift */,
+				02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */,
 				02C518172CB87692003EBD35 /* Assets.xcassets */,
 				02C518192CB87692003EBD35 /* LaunchScreen.storyboard */,
 				02C5181C2CB87692003EBD35 /* Info.plist */,
@@ -271,6 +277,8 @@
 				021499FF2CC82D5400ED3F60 /* ReadBlockViewController.swift in Sources */,
 				02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */,
 				02149A012CC82D6E00ED3F60 /* WriteBlockViewController.swift in Sources */,
+				02E9D4442CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift in Sources */,
+				02E9D4422CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
