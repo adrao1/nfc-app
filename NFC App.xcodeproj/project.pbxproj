@@ -7,19 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		021499FF2CC82D5400ED3F60 /* ReadBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021499FE2CC82D5400ED3F60 /* ReadBlockViewController.swift */; };
-		02149A012CC82D6E00ED3F60 /* WriteBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02149A002CC82D6E00ED3F60 /* WriteBlockViewController.swift */; };
 		02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5180E2CB87692003EBD35 /* AppDelegate.swift */; };
 		02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518102CB87692003EBD35 /* SceneDelegate.swift */; };
 		02C518132CB87692003EBD35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518122CB87692003EBD35 /* ViewController.swift */; };
-		02C518162CB87692003EBD35 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 02C518152CB87692003EBD35 /* Base */; };
 		02C518182CB87692003EBD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02C518172CB87692003EBD35 /* Assets.xcassets */; };
 		02C5181B2CB87692003EBD35 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 02C5181A2CB87692003EBD35 /* Base */; };
 		02C518262CB87693003EBD35 /* NFC_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518252CB87693003EBD35 /* NFC_AppTests.swift */; };
 		02C518302CB87693003EBD35 /* NFC_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */; };
 		02C518322CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */; };
-		02E9D4422CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */; };
-		02E9D4442CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,14 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		021499FE2CC82D5400ED3F60 /* ReadBlockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadBlockViewController.swift; sourceTree = "<group>"; };
-		02149A002CC82D6E00ED3F60 /* WriteBlockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBlockViewController.swift; sourceTree = "<group>"; };
-		029D5C842CCB754B005868B8 /* NFC App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NFC App.entitlements"; sourceTree = "<group>"; };
 		02C5180B2CB87692003EBD35 /* NFC App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NFC App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5180E2CB87692003EBD35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02C518102CB87692003EBD35 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		02C518122CB87692003EBD35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		02C518152CB87692003EBD35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		02C518172CB87692003EBD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02C5181A2CB87692003EBD35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02C5181C2CB87692003EBD35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,8 +47,6 @@
 		02C5182B2CB87693003EBD35 /* NFC AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NFC AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITests.swift; sourceTree = "<group>"; };
 		02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadMultipleBlocksViewController.swift; sourceTree = "<group>"; };
-		02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteMultipleBlocksViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,15 +97,9 @@
 		02C5180D2CB87692003EBD35 /* NFC App */ = {
 			isa = PBXGroup;
 			children = (
-				029D5C842CCB754B005868B8 /* NFC App.entitlements */,
 				02C5180E2CB87692003EBD35 /* AppDelegate.swift */,
 				02C518102CB87692003EBD35 /* SceneDelegate.swift */,
 				02C518122CB87692003EBD35 /* ViewController.swift */,
-				02C518142CB87692003EBD35 /* Main.storyboard */,
-				021499FE2CC82D5400ED3F60 /* ReadBlockViewController.swift */,
-				02E9D4412CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift */,
-				02149A002CC82D6E00ED3F60 /* WriteBlockViewController.swift */,
-				02E9D4432CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift */,
 				02C518172CB87692003EBD35 /* Assets.xcassets */,
 				02C518192CB87692003EBD35 /* LaunchScreen.storyboard */,
 				02C5181C2CB87692003EBD35 /* Info.plist */,
@@ -247,7 +230,6 @@
 			files = (
 				02C518182CB87692003EBD35 /* Assets.xcassets in Resources */,
 				02C5181B2CB87692003EBD35 /* Base in Resources */,
-				02C518162CB87692003EBD35 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,11 +256,7 @@
 			files = (
 				02C518132CB87692003EBD35 /* ViewController.swift in Sources */,
 				02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */,
-				021499FF2CC82D5400ED3F60 /* ReadBlockViewController.swift in Sources */,
 				02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */,
-				02149A012CC82D6E00ED3F60 /* WriteBlockViewController.swift in Sources */,
-				02E9D4442CD05C6900B2F874 /* WriteMultipleBlocksViewController.swift in Sources */,
-				02E9D4422CD05C6300B2F874 /* ReadMultipleBlocksViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,14 +293,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		02C518142CB87692003EBD35 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				02C518152CB87692003EBD35 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		02C518192CB87692003EBD35 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -458,7 +428,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "NFC App/NFC App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9R85Q3F3J6;
@@ -466,7 +435,6 @@
 				INFOPLIST_FILE = "NFC App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -487,7 +455,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "NFC App/NFC App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9R85Q3F3J6;
@@ -495,7 +462,6 @@
 				INFOPLIST_FILE = "NFC App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
