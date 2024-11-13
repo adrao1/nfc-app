@@ -11,6 +11,7 @@ import CoreNFC
 class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
     
     var block: Data!
+    var samplingFrequency: Double!
     var samplingTime: Double!
     var enabledSensors: [String]!
     var session: NFCTagReaderSession?
@@ -60,10 +61,12 @@ class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
             }
             
             print("Successfully wrote to block \(0): \(String(describing: self.block))")
-            let hexString = self.block.map { String(format: "%02x", $0) }.joined()
-            print("Data written in hex: \(hexString.uppercased())")
+            print("Data written in hex: \(self.hexString(from: self.block))")
             
-            session.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.samplingTime) {
+                print("Sampling time completed. Invalidating session.")
+                session.invalidate()
+            }
         }
     }
     

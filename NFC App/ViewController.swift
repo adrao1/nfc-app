@@ -24,7 +24,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "Block Control"
+        title = "Configure Sensors"
         
         block[0] = 1
         
@@ -86,9 +86,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @objc func sendCommandTapped() {
         let selectedRow = (stackView.arrangedSubviews[4] as! UIStackView).arrangedSubviews[1] as! UIPickerView
-        let selectedFrequency = Double(samplingFrequencies[selectedRow.selectedRow(inComponent: 0)]) ?? 1.0
+        let samplingFrequency = Double(samplingFrequencies[selectedRow.selectedRow(inComponent: 0)]) ?? 1.0
         let numberOfPasses = Int(block[4])
-        let samplingTime = selectedFrequency * Double(numberOfPasses)
+        let samplingTime = samplingFrequency * Double(numberOfPasses)
         
         let sensorNames = [
             "ADC1", "ADC2", "ADC0", "Internal Sensor"
@@ -107,6 +107,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         let sensorDataVC = SensorDataViewController()
         sensorDataVC.block = self.block
+        sensorDataVC.samplingFrequency = samplingFrequency
         sensorDataVC.samplingTime = samplingTime
         sensorDataVC.enabledSensors = enabledSensors
         navigationController?.pushViewController(sensorDataVC, animated: true)
