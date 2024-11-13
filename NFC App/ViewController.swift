@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     let stackView = UIStackView()
     var writeData: Int = 0
     let writeDataLabel = UILabel()
@@ -37,6 +37,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         addSwitchWithLabel(text: "Internal Sensor", tag: 3)
         
         addSamplingFrequencyPicker()
+        addNumberOfPassesInputField()
         
         view.addSubview(stackView)
         
@@ -109,6 +110,55 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         stackView.addArrangedSubview(horizontalStack)
     }
+
+    func addNumberOfPassesInputField() {
+        let label = UILabel()
+        label.text = "Number of Passes"
+        
+        let textField = UITextField()
+        textField.placeholder = "Enter a value (0-200)"
+        textField.keyboardType = .numberPad
+        textField.delegate = self
+        
+        textField.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        let horizontalStack = UIStackView()
+        horizontalStack.axis = .horizontal
+        horizontalStack.alignment = .center
+        horizontalStack.spacing = 10
+        
+        horizontalStack.addArrangedSubview(label)
+        horizontalStack.addArrangedSubview(textField)
+        
+        stackView.addArrangedSubview(horizontalStack)
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if newText.isEmpty {
+            block[4] = 0
+            writeDataLabel.text = "Write Data: \(hexString(from: block))"
+            return true
+        }
+        
+        if string.isEmpty, let text = textField.text, text.count > 0 {
+            let newTextAfterBackspace = String(text.dropLast())
+            if let number = Int(newTextAfterBackspace), (0...200).contains(number) {
+                block[4] = number
+                writeDataLabel.text = "Write Data: \(hexString(from: block))"
+            }
+            return true
+        }
+        
+        if let number = Int(newText), (0...200).contains(number) {
+            block[4] = number
+            writeDataLabel.text = "Write Data: \(hexString(from: block))"
+            return true
+        }
+        
+        return false
+    }
     
     @objc func switchToggled(_ sender: UISwitch) {
         let bitValue = sender.isOn ? 1 : 0
@@ -143,4 +193,3 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         return "0x" + block.map { String(format: "%02X", $0) }.joined()
     }
 }
-
