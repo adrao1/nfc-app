@@ -11,6 +11,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let stackView = UIStackView()
     var writeData: Int = 0
     let writeDataLabel = UILabel()
+    let sendCommandButton = UIButton()
 
     var block: Data = Data(repeating: 0, count: 8)
     
@@ -47,21 +48,36 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
         ])
         
-        writeDataLabel.text = "Write Data: \(hexString(from: block))"
+        writeDataLabel.text = "Block 0: \(hexString(from: block))"
         writeDataLabel.font = UIFont.systemFont(ofSize: 18)
-        
         writeDataLabel.textColor = .label
-        
         writeDataLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(writeDataLabel)
         
+        sendCommandButton.setTitle("Send Command", for: .normal)
+        sendCommandButton.setTitleColor(.white, for: .normal)
+        sendCommandButton.backgroundColor = .systemBlue
+        sendCommandButton.layer.cornerRadius = 10
+        sendCommandButton.addTarget(self, action: #selector(sendCommandTapped), for: .touchUpInside)
+        
+        sendCommandButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(sendCommandButton)
+        
         NSLayoutConstraint.activate([
-            writeDataLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
-            writeDataLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            writeDataLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 50),
+            writeDataLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            sendCommandButton.topAnchor.constraint(equalTo: writeDataLabel.bottomAnchor, constant: 30),
+            sendCommandButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendCommandButton.heightAnchor.constraint(equalToConstant: 50),
+            sendCommandButton.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
     
+    @objc func sendCommandTapped() {
+        print("Send Command tapped")
+    }
+
     func addSwitchWithLabel(text: String, tag: Int) {
         let horizontalStack = UIStackView()
         horizontalStack.axis = .horizontal
@@ -138,7 +154,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         if newText.isEmpty {
             block[4] = 0
-            writeDataLabel.text = "Write Data: \(hexString(from: block))"
+            writeDataLabel.text = "Block 0: \(hexString(from: block))"
             return true
         }
         
@@ -146,14 +162,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let newTextAfterBackspace = String(text.dropLast())
             if let number = Int(newTextAfterBackspace), (0...200).contains(number) {
                 block[4] = UInt8(number)
-                writeDataLabel.text = "Write Data: \(hexString(from: block))"
+                writeDataLabel.text = "Block 0: \(hexString(from: block))"
             }
             return true
         }
         
         if let number = Int(newText), (0...200).contains(number) {
             block[4] = UInt8(number)
-            writeDataLabel.text = "Write Data: \(hexString(from: block))"
+            writeDataLabel.text = "Block 0: \(hexString(from: block))"
             return true
         }
         
@@ -163,7 +179,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @objc func switchToggled(_ sender: UISwitch) {
         let bitValue = sender.isOn ? 1 : 0
         updateBlock(for: sender.tag, with: bitValue)
-        writeDataLabel.text = "Write Data: \(hexString(from: block))"
+        writeDataLabel.text = "Block 0: \(hexString(from: block))"
     }
     
     func updateBlock(for tag: Int, with bitValue: Int) {
@@ -186,11 +202,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @objc func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         block[3] = UInt8(row)
-        writeDataLabel.text = "Write Data: \(hexString(from: block))"
+        writeDataLabel.text = "Block 0: \(hexString(from: block))"
     }
     
     func hexString(from block: Data) -> String {
         return "0x" + block.map { String(format: "%02X", $0) }.joined()
     }
 }
-
