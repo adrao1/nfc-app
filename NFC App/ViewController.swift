@@ -14,7 +14,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let writeDataLabel = UILabel()
     let sendCommandButton = UIButton()
 
-    var session: NFCTagReaderSession?
     var block: Data = Data(repeating: 0, count: 8)
     
     let samplingFrequencies: [String] = [
@@ -58,7 +57,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         sendCommandButton.setTitle("Send Command", for: .normal)
         sendCommandButton.setTitleColor(.white, for: .normal)
-        sendCommandButton.backgroundColor = .systemBlue
+        if let buttonBackgroundColor = UIColor(named: "ButtonBackgroundColor") {
+            sendCommandButton.backgroundColor = buttonBackgroundColor
+        }
         sendCommandButton.layer.cornerRadius = 10
         sendCommandButton.addTarget(self, action: #selector(sendCommandTapped), for: .touchUpInside)
         
@@ -74,9 +75,22 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             sendCommandButton.heightAnchor.constraint(equalToConstant: 50),
             sendCommandButton.widthAnchor.constraint(equalToConstant: 200)
         ])
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc func sendCommandTapped() {
+        let selectedRow = (stackView.arrangedSubviews[4] as! UIStackView).arrangedSubviews[1] as! UIPickerView
+        let selectedFrequency = Double(samplingFrequencies[selectedRow.selectedRow(inComponent: 0)]) ?? 1.0
+        let numberOfPasses = Int(block[4])
+        let totalTime = selectedFrequency * Double(numberOfPasses)
+        print("Total Sampling Time: \(totalTime) seconds")
+        
         let sensorDataVC = SensorDataViewController()
         sensorDataVC.block = self.block
         navigationController?.pushViewController(sensorDataVC, animated: true)

@@ -79,8 +79,7 @@ class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
         view.addSubview(sensorDataLabel)
         
         if let block = block {
-            let hexString = convertToHexString(block)
-            sensorDataLabel.text = hexString
+            sensorDataLabel.text = "Data Written: " + hexString(from: block)
         }
         
         NSLayoutConstraint.activate([
@@ -94,7 +93,7 @@ class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
         self.session?.begin()
     }
     
-    func convertToHexString(_ data: Data) -> String {
-        return data.map { String(format: "%02x", $0) }.joined()
+    func hexString(from block: Data) -> String {
+        return "0x" + block.map { String(format: "%02X", $0) }.joined()
     }
 }
