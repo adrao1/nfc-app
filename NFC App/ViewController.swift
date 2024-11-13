@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreNFC
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     let stackView = UIStackView()
@@ -13,6 +14,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let writeDataLabel = UILabel()
     let sendCommandButton = UIButton()
 
+    var session: NFCTagReaderSession?
     var block: Data = Data(repeating: 0, count: 8)
     
     let samplingFrequencies: [String] = [
@@ -75,7 +77,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @objc func sendCommandTapped() {
-        print("Send Command tapped")
+        navigationController?.pushViewController(SensorDataViewController(), animated: true)
     }
 
     func addSwitchWithLabel(text: String, tag: Int) {

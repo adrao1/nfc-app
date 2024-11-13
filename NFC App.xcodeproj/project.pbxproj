@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02327F052CE48B4A007FFFBF /* SensorDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02327F042CE48B4A007FFFBF /* SensorDataViewController.swift */; };
 		02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5180E2CB87692003EBD35 /* AppDelegate.swift */; };
 		02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518102CB87692003EBD35 /* SceneDelegate.swift */; };
 		02C518132CB87692003EBD35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518122CB87692003EBD35 /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02327F042CE48B4A007FFFBF /* SensorDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataViewController.swift; sourceTree = "<group>"; };
 		02C5180B2CB87692003EBD35 /* NFC App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NFC App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5180E2CB87692003EBD35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02C518102CB87692003EBD35 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				02C5180E2CB87692003EBD35 /* AppDelegate.swift */,
 				02C518102CB87692003EBD35 /* SceneDelegate.swift */,
 				02C518122CB87692003EBD35 /* ViewController.swift */,
+				02327F042CE48B4A007FFFBF /* SensorDataViewController.swift */,
 				02C518172CB87692003EBD35 /* Assets.xcassets */,
 				02C518192CB87692003EBD35 /* LaunchScreen.storyboard */,
 				02C5181C2CB87692003EBD35 /* Info.plist */,
@@ -254,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02327F052CE48B4A007FFFBF /* SensorDataViewController.swift in Sources */,
 				02C518132CB87692003EBD35 /* ViewController.swift in Sources */,
 				02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */,
 				02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */,
