@@ -12,7 +12,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var writeData: Int = 0
     let writeDataLabel = UILabel()
 
-    var block: [Int] = Array(repeating: 0, count: 8)
+    var block: Data = Data(repeating: 0, count: 8)
     
     let samplingFrequencies: [String] = [
         "0.25", "0.5", "1", "5", "15", "30", "60", "120", "300", "600", "1800", "3600", "7200", "18000", "36000", "86400"
@@ -98,7 +98,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerView.dataSource = self
         
         let defaultRow = block[3]
-        pickerView.selectRow(defaultRow, inComponent: 0, animated: false)
+        pickerView.selectRow(Int(defaultRow), inComponent: 0, animated: false)
         
         let horizontalStack = UIStackView()
         horizontalStack.axis = .horizontal
@@ -145,14 +145,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         if string.isEmpty, let text = textField.text, text.count > 0 {
             let newTextAfterBackspace = String(text.dropLast())
             if let number = Int(newTextAfterBackspace), (0...200).contains(number) {
-                block[4] = number
+                block[4] = UInt8(number)
                 writeDataLabel.text = "Write Data: \(hexString(from: block))"
             }
             return true
         }
         
         if let number = Int(newText), (0...200).contains(number) {
-            block[4] = number
+            block[4] = UInt8(number)
             writeDataLabel.text = "Write Data: \(hexString(from: block))"
             return true
         }
@@ -168,7 +168,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     func updateBlock(for tag: Int, with bitValue: Int) {
         var byteValue = block[2]
-        byteValue = (byteValue & ~(1 << tag)) | (bitValue << tag)
+        byteValue = (byteValue & ~(UInt8(1) << tag)) | (UInt8(bitValue) << tag)
         block[2] = byteValue
     }
     
@@ -185,11 +185,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @objc func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        block[3] = row
+        block[3] = UInt8(row)
         writeDataLabel.text = "Write Data: \(hexString(from: block))"
     }
     
-    func hexString(from block: [Int]) -> String {
+    func hexString(from block: Data) -> String {
         return "0x" + block.map { String(format: "%02X", $0) }.joined()
     }
 }
+
