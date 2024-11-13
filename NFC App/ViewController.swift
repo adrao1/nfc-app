@@ -88,11 +88,27 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let selectedRow = (stackView.arrangedSubviews[4] as! UIStackView).arrangedSubviews[1] as! UIPickerView
         let selectedFrequency = Double(samplingFrequencies[selectedRow.selectedRow(inComponent: 0)]) ?? 1.0
         let numberOfPasses = Int(block[4])
-        let totalTime = selectedFrequency * Double(numberOfPasses)
-        print("Total Sampling Time: \(totalTime) seconds")
+        let samplingTime = selectedFrequency * Double(numberOfPasses)
+        
+        let sensorNames = [
+            "ADC1", "ADC2", "ADC0", "Internal Sensor"
+        ]
+        var enabledSensors: [String] = []
+        for subview in stackView.arrangedSubviews {
+            if let horizontalStack = subview as? UIStackView {
+                if let switchControl = horizontalStack.arrangedSubviews[1] as? UISwitch {
+                    if switchControl.isOn {
+                        enabledSensors.append(sensorNames[switchControl.tag])
+                    }
+                }
+            }
+        }
+        enabledSensors.sort { sensorNames.firstIndex(of: $0)! < sensorNames.firstIndex(of: $1)! }
         
         let sensorDataVC = SensorDataViewController()
         sensorDataVC.block = self.block
+        sensorDataVC.samplingTime = samplingTime
+        sensorDataVC.enabledSensors = enabledSensors
         navigationController?.pushViewController(sensorDataVC, animated: true)
     }
 

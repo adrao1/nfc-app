@@ -11,6 +11,8 @@ import CoreNFC
 class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
     
     var block: Data!
+    var samplingTime: Double!
+    var enabledSensors: [String]!
     var session: NFCTagReaderSession?
     
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
