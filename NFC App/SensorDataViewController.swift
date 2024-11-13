@@ -6,10 +6,64 @@
 //
 
 import UIKit
+import CoreNFC
 
-class SensorDataViewController: UIViewController {
+class SensorDataViewController: UIViewController, NFCTagReaderSessionDelegate {
     
-    var block: Data?
+    var block: Data!
+    var session: NFCTagReaderSession?
+    
+    func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
+        print("Session became active. Ready to scan for tags.")
+    }
+    
+    func tagReaderSession(_ session: NFCTagReaderSession, didInvalidateWithError error: any Error) {
+        print("Session invalidated: \(error.localizedDescription)")
+        self.session = nil
+    }
+    
+    func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
+        guard let tag = tags.first else {
+            print("No tags detected.")
+            return
+        }
+        
+        session.connect(to: tag) { (error) in
+            if let error = error {
+                print("Error connecting to tag: \(error.localizedDescription)")
+                session.invalidate(errorMessage: "Connection error. Please try again.")
+                return
+            }
+            
+            switch tag {
+            case .iso15693(let iso15693Tag):
+                self.writeTag(session: session, iso15693Tag: iso15693Tag)
+            default:
+                print("Unsupported tag type.")
+                session.invalidate(errorMessage: "Unsupported tag.")
+            }
+        }
+    }
+    
+    func writeTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
+        guard let tag = iso15693Tag else {
+            print("No tag available to write.")
+            return
+        }
+        
+        tag.writeSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: 0, dataBlock: self.block) { error in
+            if let error = error {
+                print("Error writing block: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Successfully wrote to block \(0): \(String(describing: self.block))")
+            let hexString = self.block.map { String(format: "%02x", $0) }.joined()
+            print("Data written in hex: \(hexString.uppercased())")
+            
+            session.invalidate()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +88,10 @@ class SensorDataViewController: UIViewController {
             sensorDataLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             sensorDataLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+        
+        self.session = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: nil)
+        self.session?.alertMessage = "Hold your iPhone near the tag."
+        self.session?.begin()
     }
     
     func convertToHexString(_ data: Data) -> String {
