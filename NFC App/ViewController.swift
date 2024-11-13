@@ -77,7 +77,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @objc func sendCommandTapped() {
-        navigationController?.pushViewController(SensorDataViewController(), animated: true)
+        let sensorDataVC = SensorDataViewController()
+        sensorDataVC.block = self.block
+        navigationController?.pushViewController(sensorDataVC, animated: true)
     }
 
     func addSwitchWithLabel(text: String, tag: Int) {
