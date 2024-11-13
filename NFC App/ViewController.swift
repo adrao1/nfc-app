@@ -7,12 +7,16 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let stackView = UIStackView()
     var writeData: Int = 0
     let writeDataLabel = UILabel()
 
     var block: [Int] = Array(repeating: 0, count: 8)
+    
+    let samplingFrequencies: [String] = [
+        "0.25", "0.5", "1", "5", "15", "30", "60", "120", "300", "600", "1800", "3600", "7200", "18000", "36000", "86400"
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,8 @@ class ViewController: UIViewController {
         addSwitchWithLabel(text: "ADC2", tag: 1)
         addSwitchWithLabel(text: "Internal Sensor", tag: 3)
         
+        addSamplingFrequencyPicker()
+        
         view.addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +49,7 @@ class ViewController: UIViewController {
         writeDataLabel.text = "Write Data: \(hexString(from: block))"
         writeDataLabel.font = UIFont.systemFont(ofSize: 18)
         
-        writeDataLabel.textColor = .label  // Automatically adapts to light and dark mode
+        writeDataLabel.textColor = .label
         
         writeDataLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -68,16 +74,38 @@ class ViewController: UIViewController {
         label.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
         
         let switchControl = UISwitch()
-        switchControl.tag = tag  // Use the tag to identify each switch
+        switchControl.tag = tag
         switchControl.addTarget(self, action: #selector(switchToggled(_:)), for: .valueChanged)
         
         if let buttonBackgroundColor = UIColor(named: "ButtonBackgroundColor") {
-            switchControl.tintColor = buttonBackgroundColor // Color for off state
-            switchControl.onTintColor = buttonBackgroundColor // Color for on state
+            switchControl.tintColor = buttonBackgroundColor
+            switchControl.onTintColor = buttonBackgroundColor
         }
         
         horizontalStack.addArrangedSubview(label)
         horizontalStack.addArrangedSubview(switchControl)
+        
+        stackView.addArrangedSubview(horizontalStack)
+    }
+    
+    func addSamplingFrequencyPicker() {
+        let label = UILabel()
+        label.text = "Sampling Frequency"
+        
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+        let defaultRow = block[3]
+        pickerView.selectRow(defaultRow, inComponent: 0, animated: false)
+        
+        let horizontalStack = UIStackView()
+        horizontalStack.axis = .horizontal
+        horizontalStack.alignment = .center
+        horizontalStack.spacing = 10
+        
+        horizontalStack.addArrangedSubview(label)
+        horizontalStack.addArrangedSubview(pickerView)
         
         stackView.addArrangedSubview(horizontalStack)
     }
@@ -94,7 +122,25 @@ class ViewController: UIViewController {
         block[2] = byteValue
     }
     
+    @objc func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    @objc func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return samplingFrequencies.count
+    }
+    
+    @objc func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return samplingFrequencies[row]
+    }
+    
+    @objc func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        block[3] = row
+        writeDataLabel.text = "Write Data: \(hexString(from: block))"
+    }
+    
     func hexString(from block: [Int]) -> String {
         return "0x" + block.map { String(format: "%02X", $0) }.joined()
     }
 }
+
