@@ -94,16 +94,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             "ADC1", "ADC2", "ADC0", "Internal Sensor"
         ]
         var enabledSensors: [String] = []
-        for subview in stackView.arrangedSubviews {
-            if let horizontalStack = subview as? UIStackView {
-                if let switchControl = horizontalStack.arrangedSubviews[1] as? UISwitch {
-                    if switchControl.isOn {
-                        enabledSensors.append(sensorNames[switchControl.tag])
-                    }
-                }
+        var block2 = Int(block[2])
+        for name in sensorNames {
+            if (block2 & 1 == 1) {
+                enabledSensors.append(name)
             }
+            block2 = block2 >> 1
         }
-        enabledSensors.sort { sensorNames.firstIndex(of: $0)! < sensorNames.firstIndex(of: $1)! }
         
         let sensorDataVC = SensorDataViewController()
         sensorDataVC.block = self.block
@@ -186,41 +183,24 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-        
         if newText.isEmpty {
             block[4] = 0
             writeDataLabel.text = "Block 0: \(hexString(from: block))"
             return true
-        }
-        
-        if string.isEmpty, let text = textField.text, text.count > 0 {
-            let newTextAfterBackspace = String(text.dropLast())
-            if let number = Int(newTextAfterBackspace), (0...200).contains(number) {
-                block[4] = UInt8(number)
-                writeDataLabel.text = "Block 0: \(hexString(from: block))"
-            }
-            return true
-        }
-        
-        if let number = Int(newText), (0...200).contains(number) {
+        } else if let number = Int(newText), (0...200).contains(number) {
             block[4] = UInt8(number)
             writeDataLabel.text = "Block 0: \(hexString(from: block))"
             return true
         }
-        
         return false
     }
     
     @objc func switchToggled(_ sender: UISwitch) {
         let bitValue = sender.isOn ? 1 : 0
-        updateBlock(for: sender.tag, with: bitValue)
-        writeDataLabel.text = "Block 0: \(hexString(from: block))"
-    }
-    
-    func updateBlock(for tag: Int, with bitValue: Int) {
         var byteValue = block[2]
-        byteValue = (byteValue & ~(UInt8(1) << tag)) | (UInt8(bitValue) << tag)
-        block[2] = byteValue
+        byteValue = (byteValue & ~(UInt8(1) << sender.tag)) | (UInt8(bitValue) << sender.tag)
+        block[2] = UInt8(byteValue)
+        writeDataLabel.text = "Block 0: \(hexString(from: block))"
     }
     
     @objc func numberOfComponents(in pickerView: UIPickerView) -> Int {
