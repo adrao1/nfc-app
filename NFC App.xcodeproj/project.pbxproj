@@ -7,9 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		028C69C72CE7A35600B6860A /* ReadFailedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028C69C62CE7A35600B6860A /* ReadFailedController.swift */; };
+		029054292CE73E040015BE5D /* Read1Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029054282CE73E040015BE5D /* Read1Controller.swift */; };
+		0290542B2CE73E310015BE5D /* LogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290542A2CE73E310015BE5D /* LogController.swift */; };
+		0290542D2CE73E8B0015BE5D /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290542C2CE73E8B0015BE5D /* TabController.swift */; };
+		0290542F2CE777E70015BE5D /* Read2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290542E2CE777E70015BE5D /* Read2Controller.swift */; };
+		029054312CE777ED0015BE5D /* Read3Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029054302CE777ED0015BE5D /* Read3Controller.swift */; };
+		029054332CE777F30015BE5D /* Read4Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029054322CE777F30015BE5D /* Read4Controller.swift */; };
 		02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5180E2CB87692003EBD35 /* AppDelegate.swift */; };
 		02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518102CB87692003EBD35 /* SceneDelegate.swift */; };
-		02C518132CB87692003EBD35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518122CB87692003EBD35 /* ViewController.swift */; };
+		02C518132CB87692003EBD35 /* ReportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518122CB87692003EBD35 /* ReportController.swift */; };
 		02C518182CB87692003EBD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02C518172CB87692003EBD35 /* Assets.xcassets */; };
 		02C5181B2CB87692003EBD35 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 02C5181A2CB87692003EBD35 /* Base */; };
 		02C518262CB87693003EBD35 /* NFC_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518252CB87693003EBD35 /* NFC_AppTests.swift */; };
@@ -35,11 +42,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		029054262CE72ACD0015BE5D /* NFC App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NFC App.entitlements"; sourceTree = "<group>"; };
+		028C69C62CE7A35600B6860A /* ReadFailedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFailedController.swift; sourceTree = "<group>"; };
+		029054262CE72ACD0015BE5D /* NFC App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "NFC App.entitlements"; path = "Supporting/NFC App.entitlements"; sourceTree = "<group>"; };
+		029054282CE73E040015BE5D /* Read1Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Read1Controller.swift; sourceTree = "<group>"; };
+		0290542A2CE73E310015BE5D /* LogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogController.swift; sourceTree = "<group>"; };
+		0290542C2CE73E8B0015BE5D /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
+		0290542E2CE777E70015BE5D /* Read2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Read2Controller.swift; sourceTree = "<group>"; };
+		029054302CE777ED0015BE5D /* Read3Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Read3Controller.swift; sourceTree = "<group>"; };
+		029054322CE777F30015BE5D /* Read4Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Read4Controller.swift; sourceTree = "<group>"; };
 		02C5180B2CB87692003EBD35 /* NFC App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NFC App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5180E2CB87692003EBD35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02C518102CB87692003EBD35 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		02C518122CB87692003EBD35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		02C518122CB87692003EBD35 /* ReportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportController.swift; sourceTree = "<group>"; };
 		02C518172CB87692003EBD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02C5181A2CB87692003EBD35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02C5181C2CB87692003EBD35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,7 +96,6 @@
 				02C518102CB87692003EBD35 /* SceneDelegate.swift */,
 				02C518172CB87692003EBD35 /* Assets.xcassets */,
 				02C518192CB87692003EBD35 /* LaunchScreen.storyboard */,
-				029054262CE72ACD0015BE5D /* NFC App.entitlements */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -110,9 +123,17 @@
 		02C5180D2CB87692003EBD35 /* NFC App */ = {
 			isa = PBXGroup;
 			children = (
-				02C518122CB87692003EBD35 /* ViewController.swift */,
+				0290542C2CE73E8B0015BE5D /* TabController.swift */,
+				02C518122CB87692003EBD35 /* ReportController.swift */,
+				029054282CE73E040015BE5D /* Read1Controller.swift */,
+				0290542E2CE777E70015BE5D /* Read2Controller.swift */,
+				029054302CE777ED0015BE5D /* Read3Controller.swift */,
+				029054322CE777F30015BE5D /* Read4Controller.swift */,
+				028C69C62CE7A35600B6860A /* ReadFailedController.swift */,
+				0290542A2CE73E310015BE5D /* LogController.swift */,
 				029054272CE73C1C0015BE5D /* Supporting */,
 				02C5181C2CB87692003EBD35 /* Info.plist */,
+				029054262CE72ACD0015BE5D /* NFC App.entitlements */,
 			);
 			path = "NFC App";
 			sourceTree = "<group>";
@@ -264,9 +285,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C518132CB87692003EBD35 /* ViewController.swift in Sources */,
+				028C69C72CE7A35600B6860A /* ReadFailedController.swift in Sources */,
+				02C518132CB87692003EBD35 /* ReportController.swift in Sources */,
+				0290542D2CE73E8B0015BE5D /* TabController.swift in Sources */,
 				02C5180F2CB87692003EBD35 /* AppDelegate.swift in Sources */,
+				029054332CE777F30015BE5D /* Read4Controller.swift in Sources */,
+				029054312CE777ED0015BE5D /* Read3Controller.swift in Sources */,
+				0290542F2CE777E70015BE5D /* Read2Controller.swift in Sources */,
+				0290542B2CE73E310015BE5D /* LogController.swift in Sources */,
 				02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */,
+				029054292CE73E040015BE5D /* Read1Controller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
