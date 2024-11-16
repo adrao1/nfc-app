@@ -22,6 +22,7 @@
 		02C518262CB87693003EBD35 /* NFC_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518252CB87693003EBD35 /* NFC_AppTests.swift */; };
 		02C518302CB87693003EBD35 /* NFC_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */; };
 		02C518322CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */; };
+		02E1BD652CE8EC22004AA5CD /* NFCApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02E1BD632CE8EC22004AA5CD /* NFCApp.xcdatamodeld */; };
 		7E0313B14A088DE91D492EBE /* Pods_NFC_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9C01D6A1D13B8A7B8F6F9A /* Pods_NFC_App.framework */; };
 		88DB4C8B9914ED2A1C58B017 /* Pods_NFC_AppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280F1C1F9D3EB1C1685D187B /* Pods_NFC_AppTests.framework */; };
 		DBF2441F69C0EE6DA3216A6F /* Pods_NFC_App_NFC_AppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D014A207BF04D64207D1B97D /* Pods_NFC_App_NFC_AppUITests.framework */; };
@@ -65,6 +66,7 @@
 		02C5182B2CB87693003EBD35 /* NFC AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NFC AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02C5182F2CB87693003EBD35 /* NFC_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITests.swift; sourceTree = "<group>"; };
 		02C518312CB87693003EBD35 /* NFC_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		02E1BD642CE8EC22004AA5CD /* NFCApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NFCApp.xcdatamodel; sourceTree = "<group>"; };
 		280F1C1F9D3EB1C1685D187B /* Pods_NFC_AppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NFC_AppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE8B8ECA2949B2B9050BD7B /* Pods-NFC AppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFC AppTests.release.xcconfig"; path = "Target Support Files/Pods-NFC AppTests/Pods-NFC AppTests.release.xcconfig"; sourceTree = "<group>"; };
 		64990FB3C1E10852DDE88BB2 /* Pods-NFC App-NFC AppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFC App-NFC AppUITests.release.xcconfig"; path = "Target Support Files/Pods-NFC App-NFC AppUITests/Pods-NFC App-NFC AppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				02C518102CB87692003EBD35 /* SceneDelegate.swift */,
 				02C518172CB87692003EBD35 /* Assets.xcassets */,
 				02C518192CB87692003EBD35 /* LaunchScreen.storyboard */,
+				02E1BD632CE8EC22004AA5CD /* NFCApp.xcdatamodeld */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				029054332CE777F30015BE5D /* ReadSuccessController.swift in Sources */,
 				0290542F2CE777E70015BE5D /* Read2Controller.swift in Sources */,
 				0290542B2CE73E310015BE5D /* LogController.swift in Sources */,
+				02E1BD652CE8EC22004AA5CD /* NFCApp.xcdatamodeld in Sources */,
 				02C518112CB87692003EBD35 /* SceneDelegate.swift in Sources */,
 				029054292CE73E040015BE5D /* Read1Controller.swift in Sources */,
 			);
@@ -789,6 +793,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		02E1BD632CE8EC22004AA5CD /* NFCApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				02E1BD642CE8EC22004AA5CD /* NFCApp.xcdatamodel */,
+			);
+			currentVersion = 02E1BD642CE8EC22004AA5CD /* NFCApp.xcdatamodel */;
+			path = NFCApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 02C518032CB87692003EBD35 /* Project object */;
 }
