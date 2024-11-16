@@ -18,7 +18,6 @@ class ReportController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchLatestSensorData()
         displayChart()
     }
 
@@ -35,6 +34,8 @@ class ReportController: UIViewController {
 
         scatterChartView.translatesAutoresizingMaskIntoConstraints = false
         scatterChartView.legend.enabled = false
+        scatterChartView.xAxis.axisMinimum = -0.5
+        scatterChartView.xAxis.granularity = 1 // Ensure x-axis steps are in integers
         scatterChartView.xAxis.labelPosition = .bottom
         scatterChartView.rightAxis.enabled = false
         
@@ -124,19 +125,31 @@ class ReportController: UIViewController {
     func populateChart(with sensorData: SensorData) {
         guard let data = sensorData.sensorData else { return }
         
-        let values = Array(data)
-        let entries = values.enumerated().map { index, value in
-            ChartDataEntry(x: Double(index), y: Double(value))
+        let maxADCValue = pow(2.0, 14.0) - 1.0
+        let pgaMultiplier = 2.0
+        let scaleFactor = 0.9 / pgaMultiplier
+        
+        var voltages: [Double] = []
+        for i in stride(from: 0, to: data.count, by: 2) {
+            let rawValue = Int16(data[i]) | (Int16(data[i + 1]) << 8)
+            let adcValue = Double(rawValue)
+            let voltage = (adcValue / maxADCValue) * scaleFactor
+            voltages.append(voltage)
+        }
+        
+        let entries = voltages.enumerated().map { index, voltage in
+            ChartDataEntry(x: Double(index), y: voltage)
         }
         
         let dataSet = ScatterChartDataSet(entries: entries, label: "Sensor Data")
-        dataSet.colors = [NSUIColor.init(red: 58/255.0, green: 199/255.0, blue: 235/255.0, alpha: 1)]
+        dataSet.colors = [NSUIColor(red: 58 / 255.0, green: 199 / 255.0, blue: 235 / 255.0, alpha: 1)]
         dataSet.setScatterShape(.circle)
         dataSet.scatterShapeSize = 10
         dataSet.drawValuesEnabled = false
         
         scatterChartView.data = ScatterChartData(dataSet: dataSet)
-        sensorTypeLabel.text =  "Sensor Type: \(sensorData.sensorType ?? "Unknown")"
+        
+        sensorTypeLabel.text = "Sensor Type: \(sensorData.sensorType ?? "Unknown")"
         samplingRateLabel.text = "Sampling Rate (sec/sample): \(sensorData.samplingRate)"
         numberOfSamplesLabel.text = "Number of samples: \(sensorData.sampleCount)"
     }
