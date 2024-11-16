@@ -145,7 +145,5 @@ class Read2Controller: UIViewController {
         writeData[3] = UInt8(samplingRates.firstIndex(of: samplingRate)!)
         writeData[4] = numberOfSamples
         UserDefaults.standard.set(writeData, forKey: "writeData")
-
-        navigationController?.pushViewController(Read3Controller(), animated: true)
     }
 }

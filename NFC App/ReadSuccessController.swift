@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Read4Controller: UIViewController {
+class ReadSuccessController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
