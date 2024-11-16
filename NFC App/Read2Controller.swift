@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import CoreNFC
 
 class Read2Controller: UIViewController {
+    var session: NFCTagReaderSession?
+    var timeLeft: Int = 0
+    
     let instructionLabel = UILabel()
     let samplingRateLabel = UILabel()
     let samplingRateValueLabel = UILabel()
@@ -141,9 +145,81 @@ class Read2Controller: UIViewController {
         let numberOfSamples = UInt8(numberOfSamplesValueLabel.text!)!
         var writeData = UserDefaults.standard.data(forKey: "writeData")!
         let samplingRates = UserDefaults.standard.array(forKey: "samplingRates") as! [Double]
-        
+        self.timeLeft = Int(ceil(samplingRate * Double(numberOfSamples)))
+
         writeData[3] = UInt8(samplingRates.firstIndex(of: samplingRate)!)
         writeData[4] = numberOfSamples
         UserDefaults.standard.set(writeData, forKey: "writeData")
+        
+        self.session = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: nil)
+        self.session?.alertMessage = "Hold phone close to sensor for \(self.timeLeft) seconds."
+        self.session?.begin()
+        
     }
+}
+
+extension Read2Controller: NFCTagReaderSessionDelegate {
+    func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
+        print("Session became active. Ready to scan for tags.")
+    }
+    
+    func tagReaderSession(_ session: NFCTagReaderSession, didInvalidateWithError error: any Error) {
+        print("Session invalidated: \(error.localizedDescription)")
+        self.session = nil
+    }
+    
+    func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
+        guard let tag = tags.first else {
+            print("No tags detected.")
+            return
+        }
+        
+        session.connect(to: tag) { (error) in
+            if let error = error {
+                print("Error connecting to tag: \(error.localizedDescription)")
+                session.invalidate(errorMessage: "Connection error. Please try again.")
+                return
+            }
+            
+            switch tag {
+            case .iso15693(let iso15693Tag):
+                self.writeTag(session: session, iso15693Tag: iso15693Tag)
+            default:
+                print("Unsupported tag type.")
+                session.invalidate(errorMessage: "Unsupported tag.")
+            }
+        }
+    }
+    
+    func writeTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
+        let writeData = UserDefaults.standard.data(forKey: "writeData")!
+        
+        guard let tag = iso15693Tag else {
+            print("No tag available to write.")
+            return
+        }
+        
+        tag.writeSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: 0, dataBlock: writeData) { error in
+            if let error = error {
+                print("Error writing block: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Successfully wrote to block \(0): \(writeData)")
+            let hexString = writeData.map { String(format: "%02x", $0) }.joined()
+            print("Data written in hex: \(hexString.uppercased())")
+            
+            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                if self.timeLeft >= 0 {
+                    self.session?.alertMessage = "Hold phone close to sensor for \(self.timeLeft) seconds."
+                    self.timeLeft -= 1
+                } else {
+                    timer.invalidate()
+                    session.invalidate()
+                }
+            }
+        }
+    }
+    
+
 }
