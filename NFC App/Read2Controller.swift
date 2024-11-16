@@ -11,6 +11,7 @@ import CoreNFC
 class Read2Controller: UIViewController {
     var session: NFCTagReaderSession?
     var timeLeft: Int = 0
+    var timer: Timer?
     
     let instructionLabel = UILabel()
     let samplingRateLabel = UILabel()
@@ -183,7 +184,7 @@ extension Read2Controller: NFCTagReaderSessionDelegate {
             
             switch tag {
             case .iso15693(let iso15693Tag):
-                self.writeTag(session: session, iso15693Tag: iso15693Tag)
+                self.writeTag(iso15693Tag: iso15693Tag)
             default:
                 print("Unsupported tag type.")
                 session.invalidate(errorMessage: "Unsupported tag.")
@@ -191,7 +192,7 @@ extension Read2Controller: NFCTagReaderSessionDelegate {
         }
     }
     
-    func writeTag(session: NFCTagReaderSession, iso15693Tag: NFCISO15693Tag?) {
+    func writeTag(iso15693Tag: NFCISO15693Tag?) {
         let writeData = UserDefaults.standard.data(forKey: "writeData")!
         
         guard let tag = iso15693Tag else {
@@ -209,17 +210,59 @@ extension Read2Controller: NFCTagReaderSessionDelegate {
             let hexString = writeData.map { String(format: "%02x", $0) }.joined()
             print("Data written in hex: \(hexString.uppercased())")
             
-            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                if self.timeLeft >= 0 {
-                    self.session?.alertMessage = "Hold phone close to sensor for \(self.timeLeft) seconds."
-                    self.timeLeft -= 1
-                } else {
-                    timer.invalidate()
-                    session.invalidate()
+            DispatchQueue.main.async {
+                self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                    if self.timeLeft >= 0 {
+                        self.session?.alertMessage = "Hold phone close to sensor for \(self.timeLeft) seconds."
+                        self.timeLeft -= 1
+                    } else {
+                        timer.invalidate()
+                        self.readData(iso15693Tag: iso15693Tag)
+                    }
                 }
             }
         }
     }
     
+    func readData(iso15693Tag: NFCISO15693Tag?) {
+        guard let tag = iso15693Tag else {
+            print("No tag available to write.")
+            return
+        }
+        
+        let writeData = UserDefaults.standard.data(forKey: "writeData")!
+        let numberOfSamples = Int(writeData[4])
+        
+        let startBlock = 9
+        let dataSize = 2
+        let blockSize = 8
+        let totalBytes = numberOfSamples * dataSize
+        let blocksToRead = Int(ceil(Double(totalBytes) / Double(blockSize)))
 
+        var currentBlock = startBlock
+        var allData = Data()
+        
+        func readNextBlock() {
+            if currentBlock < startBlock + blocksToRead {
+                tag.readSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: UInt8(currentBlock)) { (data, error) in
+                    if let error = error {
+                        print("Error reading block \(currentBlock): \(error.localizedDescription)")
+                        self.session?.invalidate()
+                        return
+                    }
+                    
+                    print("Data read from block \(currentBlock): \(data)")
+                    allData.append(data)
+                    
+                    currentBlock += 1
+                    readNextBlock()
+                }
+            } else {
+                let hexString = allData.map { String(format: "%02X", $0) }.joined()
+                print("Complete data read in hex: \(hexString.uppercased())")
+                self.session?.invalidate()
+            }
+        }
+        readNextBlock()
+    }
 }
