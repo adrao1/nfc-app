@@ -10,16 +10,16 @@ import Charts
 import CoreData
 
 class ReportController: UIViewController {
+    let greetingLabel = UILabel()
+    let scatterChartView = ScatterChartView()
+    let sensorTypeLabel = UILabel()
+    let samplingRateLabel = UILabel()
+    let numberOfSamplesLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
         
-        let greetingLabel = UILabel()
-        let scatterChartView = ScatterChartView()
-        let samplingRateLabel = UILabel()
-        let numberOfSamplesLabel = UILabel()
-
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.textAlignment = .center
         greetingLabel.font = UIFont.boldSystemFont(ofSize: 30)
@@ -32,6 +32,11 @@ class ReportController: UIViewController {
         scatterChartView.xAxis.labelPosition = .bottom
         scatterChartView.rightAxis.enabled = false
         
+        sensorTypeLabel.translatesAutoresizingMaskIntoConstraints = false
+        sensorTypeLabel.text = "Sensor Type:"
+        sensorTypeLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        sensorTypeLabel.textColor = UIColor(named: "TextColor")
+
         samplingRateLabel.translatesAutoresizingMaskIntoConstraints = false
         samplingRateLabel.text = "Sampling Rate (sec/sample):"
         samplingRateLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
@@ -44,6 +49,7 @@ class ReportController: UIViewController {
 
         view.addSubview(greetingLabel)
         view.addSubview(scatterChartView)
+        view.addSubview(sensorTypeLabel)
         view.addSubview(samplingRateLabel)
         view.addSubview(numberOfSamplesLabel)
 
@@ -58,7 +64,11 @@ class ReportController: UIViewController {
             scatterChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             scatterChartView.heightAnchor.constraint(equalToConstant: 300),
             
-            samplingRateLabel.topAnchor.constraint(equalTo: scatterChartView.bottomAnchor, constant: 50),
+            sensorTypeLabel.topAnchor.constraint(equalTo: scatterChartView.bottomAnchor, constant: 50),
+            sensorTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            sensorTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+
+            samplingRateLabel.topAnchor.constraint(equalTo: sensorTypeLabel.bottomAnchor, constant: 20),
             samplingRateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             samplingRateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -66,36 +76,12 @@ class ReportController: UIViewController {
             numberOfSamplesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             numberOfSamplesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        
-        let entries: [ChartDataEntry] = [
-            ChartDataEntry(x: 2.02, y: 3.5),
-            ChartDataEntry(x: 3.98, y: 3.5),
-
-            ChartDataEntry(x: 1.94, y: 3.05),
-            ChartDataEntry(x: 2.1, y: 2.99),
-            ChartDataEntry(x: 2.3, y: 2.94),
-            ChartDataEntry(x: 2.5, y: 2.89),
-            ChartDataEntry(x: 2.75, y: 2.85),
-            ChartDataEntry(x: 3.0, y: 2.84),
-            ChartDataEntry(x: 3.25, y: 2.85),
-            ChartDataEntry(x: 3.5, y: 2.89),
-            ChartDataEntry(x: 3.7, y: 2.94),
-            ChartDataEntry(x: 3.9, y: 2.99),
-            ChartDataEntry(x: 4.06, y: 3.05),
-        ]
-        
-        let dataSet = ScatterChartDataSet(entries: entries, label: "Example Scatter Plot")
-        dataSet.colors = [NSUIColor.init(red: 58/255.0, green: 199/255.0, blue: 235/255.0, alpha: 1)]
-        dataSet.setScatterShape(.circle)
-        dataSet.scatterShapeSize = 25
-        dataSet.drawValuesEnabled = false
-
-        let data = ScatterChartData(dataSet: dataSet)
-        scatterChartView.data = data
-        
-        retrieveAndPrintData()
+        if let latestSensorData = fetchLatestSensorData() {
+            populateChart(with: latestSensorData)
+        } else {
+            displayEmptyChart()
+        }
     }
-
     
     func getTime() -> String {
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -110,37 +96,46 @@ class ReportController: UIViewController {
         return time
     }
     
-    
-    func retrieveAndPrintData() {
+    func fetchLatestSensorData() -> SensorData? {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<SensorData> = SensorData.fetchRequest()
-
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        
         do {
-            let results = try context.fetch(fetchRequest)
-            if results.isEmpty {
-                print("No sensor data found.")
-            } else {
-                for sensorData in results {
-                    if let timestamp = sensorData.timestamp, let sensorType = sensorData.sensorType, let data = sensorData.sensorData {
-                        let formattedDate = DateFormatter.localizedString(from: timestamp, dateStyle: .short, timeStyle: .short)
-                        let sampleCount = sensorData.sampleCount
-                        let samplingRate = sensorData.samplingRate
-                        let dataHexString = data.map { String(format: "%02X", $0) }.joined(separator: " ")
-
-                        print("Timestamp: \(formattedDate)")
-                        print("Sensor Type: \(sensorType)")
-                        print("Sample Count: \(sampleCount)")
-                        print("Sampling Rate: \(samplingRate)")
-                        print("Sensor Data: \(dataHexString)")
-                        print("------")
-                    }
-                }
-            }
+            return try context.fetch(fetchRequest).first
         } catch {
-            print("Failed to fetch sensor data: \(error)")
+            print("Failed to fetch latest sensor data: \(error)")
+            return nil
         }
     }
-
-
+    
+    func populateChart(with sensorData: SensorData) {
+        guard let data = sensorData.sensorData else { return }
+        
+        let values = Array(data)
+        let entries = values.enumerated().map { index, value in
+            ChartDataEntry(x: Double(index), y: Double(value))
+        }
+        
+        let dataSet = ScatterChartDataSet(entries: entries, label: "Sensor Data")
+        dataSet.colors = [NSUIColor.init(red: 58/255.0, green: 199/255.0, blue: 235/255.0, alpha: 1)]
+        dataSet.setScatterShape(.circle)
+        dataSet.scatterShapeSize = 10
+        dataSet.drawValuesEnabled = false
+        
+        scatterChartView.data = ScatterChartData(dataSet: dataSet)
+        sensorTypeLabel.text =  "Sensor Type: \(sensorData.sensorType ?? "Unknown")"
+        samplingRateLabel.text = "Sampling Rate (sec/sample): \(sensorData.samplingRate)"
+        numberOfSamplesLabel.text = "Number of samples: \(sensorData.sampleCount)"
+    }
+    
+    func displayEmptyChart() {
+        let emptyDataSet = ScatterChartDataSet(entries: [], label: "No Data")
+        scatterChartView.data = ScatterChartData(dataSet: emptyDataSet)
+        sensorTypeLabel.text = "Sensor Type:"
+        samplingRateLabel.text = "Sampling Rate (sec/sample):"
+        numberOfSamplesLabel.text = "Number of samples:"
+    }
 }
 
