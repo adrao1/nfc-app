@@ -23,8 +23,9 @@ class ReportController: UIViewController {
         greetingLabel.textAlignment = .center
         greetingLabel.font = UIFont.boldSystemFont(ofSize: 30)
         greetingLabel.textColor = UIColor(named: "TextColor")
-        greetingLabel.text = "Good Morning"
-        
+        greetingLabel.numberOfLines = 0
+        greetingLabel.text = "Good \(getTime()) \(UserDefaults.standard.string(forKey: "userName")!)"
+
         scatterChartView.translatesAutoresizingMaskIntoConstraints = false
         scatterChartView.legend.enabled = false
         scatterChartView.xAxis.labelPosition = .bottom
@@ -48,7 +49,9 @@ class ReportController: UIViewController {
         NSLayoutConstraint.activate([
             greetingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             greetingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            
+            greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            greetingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+
             scatterChartView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 50),
             scatterChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             scatterChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -90,6 +93,19 @@ class ReportController: UIViewController {
         scatterChartView.data = data
     }
 
+    
+    func getTime() -> String {
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        let time: String
+        if currentHour >= 5 && currentHour < 12 {
+            time = "Morning"
+        } else if currentHour >= 12 && currentHour < 17 {
+            time = "Afternoon"
+        } else {
+            time = "Evening"
+        }
+        return time
+    }
 
 }
 
