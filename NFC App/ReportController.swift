@@ -7,6 +7,7 @@
 
 import UIKit
 import Charts
+import CoreData
 
 class ReportController: UIViewController {
 
@@ -91,6 +92,8 @@ class ReportController: UIViewController {
 
         let data = ScatterChartData(dataSet: dataSet)
         scatterChartView.data = data
+        
+        retrieveAndPrintData()
     }
 
     
@@ -106,6 +109,38 @@ class ReportController: UIViewController {
         }
         return time
     }
+    
+    
+    func retrieveAndPrintData() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<SensorData> = SensorData.fetchRequest()
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            if results.isEmpty {
+                print("No sensor data found.")
+            } else {
+                for sensorData in results {
+                    if let timestamp = sensorData.timestamp, let sensorType = sensorData.sensorType, let data = sensorData.sensorData {
+                        let formattedDate = DateFormatter.localizedString(from: timestamp, dateStyle: .short, timeStyle: .short)
+                        let sampleCount = sensorData.sampleCount
+                        let samplingRate = sensorData.samplingRate
+                        let dataHexString = data.map { String(format: "%02X", $0) }.joined(separator: " ")
+
+                        print("Timestamp: \(formattedDate)")
+                        print("Sensor Type: \(sensorType)")
+                        print("Sample Count: \(sampleCount)")
+                        print("Sampling Rate: \(samplingRate)")
+                        print("Sensor Data: \(dataHexString)")
+                        print("------")
+                    }
+                }
+            }
+        } catch {
+            print("Failed to fetch sensor data: \(error)")
+        }
+    }
+
 
 }
 

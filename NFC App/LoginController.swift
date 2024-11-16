@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class LoginController: UIViewController, UITextFieldDelegate {
     
@@ -42,9 +43,32 @@ class LoginController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(name, forKey: "userName")
             UserDefaults.standard.set(writeData, forKey: "writeData")
             UserDefaults.standard.set(samplingRates, forKey: "samplingRates")
+            
+            generateData()
+            
             textField.resignFirstResponder()
             view.window?.rootViewController = TabController()
         }
         return true
+    }
+    
+    func generateData() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        for i in 0..<5 {
+            let sensorData = SensorData(context: context)
+            let timestamp = Date().addingTimeInterval(Double(i * 60))
+            let mockData = Data([0xFF, 0x3F, 0x80, 0x20, 0x80 + UInt8(i), 0x20 + UInt8(i), 0x80, 0x20])
+            sensorData.timestamp = timestamp
+            sensorData.sensorType = "MockSensor\(i)"
+            sensorData.sampleCount = Int16(8 + i)
+            sensorData.samplingRate = 1.0 + Double(i) * 0.1
+            sensorData.sensorData = mockData
+            do {
+                try context.save()
+                print("Mock sensor data saved successfully for timestamp: \(timestamp). Data: \(mockData)")
+            } catch {
+                print("Failed to save sensor data: \(error)")
+            }
+        }
     }
 }
