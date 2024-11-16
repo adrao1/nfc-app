@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02728AF52CE7EBD000C4872C /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02728AF42CE7EBD000C4872C /* LoginController.swift */; };
 		028C69C72CE7A35600B6860A /* ReadFailedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028C69C62CE7A35600B6860A /* ReadFailedController.swift */; };
 		029054292CE73E040015BE5D /* Read1Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029054282CE73E040015BE5D /* Read1Controller.swift */; };
 		0290542B2CE73E310015BE5D /* LogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290542A2CE73E310015BE5D /* LogController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02728AF42CE7EBD000C4872C /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		028C69C62CE7A35600B6860A /* ReadFailedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFailedController.swift; sourceTree = "<group>"; };
 		029054262CE72ACD0015BE5D /* NFC App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "NFC App.entitlements"; path = "Supporting/NFC App.entitlements"; sourceTree = "<group>"; };
 		029054282CE73E040015BE5D /* Read1Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Read1Controller.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		02C5180D2CB87692003EBD35 /* NFC App */ = {
 			isa = PBXGroup;
 			children = (
+				02728AF42CE7EBD000C4872C /* LoginController.swift */,
 				0290542C2CE73E8B0015BE5D /* TabController.swift */,
 				02C518122CB87692003EBD35 /* ReportController.swift */,
 				029054282CE73E040015BE5D /* Read1Controller.swift */,
@@ -433,6 +436,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02728AF52CE7EBD000C4872C /* LoginController.swift in Sources */,
 				028C69C72CE7A35600B6860A /* ReadFailedController.swift in Sources */,
 				02C518132CB87692003EBD35 /* ReportController.swift in Sources */,
 				0290542D2CE73E8B0015BE5D /* TabController.swift in Sources */,
