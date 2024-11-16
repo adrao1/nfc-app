@@ -34,7 +34,14 @@ class LoginController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let name = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty {
+            var writeData = Data(repeating: 0, count: 8)
+            let samplingRates: [Double] = [0.25, 0.5, 1.0]
+            writeData[0] = 1
+            writeData[3] = 1
+            writeData[4] = 10
             UserDefaults.standard.set(name, forKey: "userName")
+            UserDefaults.standard.set(writeData, forKey: "writeData")
+            UserDefaults.standard.set(samplingRates, forKey: "samplingRates")
             textField.resignFirstResponder()
             view.window?.rootViewController = TabController()
         }

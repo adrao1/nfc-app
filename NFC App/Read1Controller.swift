@@ -58,10 +58,16 @@ class Read1Controller: UIViewController {
     }
     
     @objc private func lightButtonTapped() {
+        var writeData = UserDefaults.standard.data(forKey: "writeData")!
+        writeData[2] = 4
+        UserDefaults.standard.set(writeData, forKey: "writeData")
         navigationController?.pushViewController(Read2Controller(), animated: true)
     }
     
     @objc private func tempButtonTapped() {
+        var writeData = UserDefaults.standard.data(forKey: "writeData")!
+        writeData[2] = 2
+        UserDefaults.standard.set(writeData, forKey: "writeData")
         navigationController?.pushViewController(Read2Controller(), animated: true)
     }
 }

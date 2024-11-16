@@ -20,6 +20,11 @@ class Read2Controller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
+        let writeData = UserDefaults.standard.data(forKey: "writeData")!
+        let samplingRates = UserDefaults.standard.array(forKey: "samplingRates") as! [Double]
+        let samplingRateIndex = Int(writeData[3])
+        let samplingRate = samplingRates[samplingRateIndex]
+        let numberOfSamples = Int(writeData[4])
 
         let samplingStackView = UIStackView(arrangedSubviews: [samplingRateLabel, samplingRateValueLabel])
         let numberOfSamplesStackView = UIStackView(arrangedSubviews: [numberOfSamplesLabel, numberOfSamplesValueLabel])
@@ -37,14 +42,14 @@ class Read2Controller: UIViewController {
         samplingRateLabel.textColor = UIColor(named: "TextColor")
         
         samplingRateValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        samplingRateValueLabel.text = "0.5"
+        samplingRateValueLabel.text = String(format: "%.2f", samplingRate)
         samplingRateValueLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         samplingRateValueLabel.textColor = UIColor(named: "TextColor")
         
         samplingRateSlider.translatesAutoresizingMaskIntoConstraints = false
         samplingRateSlider.minimumValue = 0
         samplingRateSlider.maximumValue = 2
-        samplingRateSlider.value = 1
+        samplingRateSlider.value = Float(samplingRateIndex)
         samplingRateSlider.isContinuous = true
         samplingRateSlider.addTarget(self, action: #selector(samplingRateSliderChanged), for: .valueChanged)
         samplingRateSlider.tintColor = UIColor(named: "ButtonColor")
@@ -55,14 +60,14 @@ class Read2Controller: UIViewController {
         numberOfSamplesLabel.textColor = UIColor(named: "TextColor")
         
         numberOfSamplesValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        numberOfSamplesValueLabel.text = "10"
+        numberOfSamplesValueLabel.text = "\(numberOfSamples)"
         numberOfSamplesValueLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         numberOfSamplesValueLabel.textColor = UIColor(named: "TextColor")
         
         numberOfSamplesSlider.translatesAutoresizingMaskIntoConstraints = false
         numberOfSamplesSlider.minimumValue = 1
         numberOfSamplesSlider.maximumValue = 20
-        numberOfSamplesSlider.value = 10
+        numberOfSamplesSlider.value = Float(numberOfSamples)
         numberOfSamplesSlider.isContinuous = true
         numberOfSamplesSlider.addTarget(self, action: #selector(numberOfSamplesSliderChanged), for: .valueChanged)
         numberOfSamplesSlider.tintColor = UIColor(named: "ButtonColor")
@@ -121,11 +126,9 @@ class Read2Controller: UIViewController {
     }
     
     @objc func samplingRateSliderChanged() {
-        let values = [0.25, 0.5, 1]
+        let samplingRates = UserDefaults.standard.array(forKey: "samplingRates") as! [Double]
         let index = Int(round(samplingRateSlider.value))
-        let rate = values[index]
-        let formattedRate = String(format: "%.2f", rate)
-        samplingRateValueLabel.text = formattedRate
+        samplingRateValueLabel.text = String(format: "%.2f", samplingRates[index])
     }
     
     @objc func numberOfSamplesSliderChanged() {
@@ -134,9 +137,15 @@ class Read2Controller: UIViewController {
     }
     
     @objc func startSamplingButtonTapped() {
-        let samplingRate = samplingRateValueLabel.text ?? "0.5"
-        let numberOfSamples = numberOfSamplesValueLabel.text ?? "10"
-        print("Starting sampling with rate: \(samplingRate) and \(numberOfSamples) samples.")
+        let samplingRate = Double(samplingRateValueLabel.text!)!
+        let numberOfSamples = UInt8(numberOfSamplesValueLabel.text!)!
+        var writeData = UserDefaults.standard.data(forKey: "writeData")!
+        let samplingRates = UserDefaults.standard.array(forKey: "samplingRates") as! [Double]
+        
+        writeData[3] = UInt8(samplingRates.firstIndex(of: samplingRate)!)
+        writeData[4] = numberOfSamples
+        UserDefaults.standard.set(writeData, forKey: "writeData")
+
         navigationController?.pushViewController(Read3Controller(), animated: true)
     }
 }
