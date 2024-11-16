@@ -15,6 +15,12 @@ class ReportController: UIViewController {
     let sensorTypeLabel = UILabel()
     let samplingRateLabel = UILabel()
     let numberOfSamplesLabel = UILabel()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchLatestSensorData()
+        displayChart()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,11 +82,8 @@ class ReportController: UIViewController {
             numberOfSamplesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             numberOfSamplesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        if let latestSensorData = fetchLatestSensorData() {
-            populateChart(with: latestSensorData)
-        } else {
-            displayEmptyChart()
-        }
+        displayChart()
+ 
     }
     
     func getTime() -> String {
@@ -107,6 +110,14 @@ class ReportController: UIViewController {
         } catch {
             print("Failed to fetch latest sensor data: \(error)")
             return nil
+        }
+    }
+    
+    func displayChart() {
+       if let latestSensorData = fetchLatestSensorData() {
+            populateChart(with: latestSensorData)
+        } else {
+            displayEmptyChart()
         }
     }
     

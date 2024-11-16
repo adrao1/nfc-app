@@ -260,9 +260,43 @@ extension Read2Controller: NFCTagReaderSessionDelegate {
             } else {
                 let hexString = allData.map { String(format: "%02X", $0) }.joined()
                 print("Complete data read in hex: \(hexString.uppercased())")
+                let expectedDataLength = numberOfSamples * dataSize
+                let trimmedData = allData.prefix(expectedDataLength)
+                print("Trimmed data: \(trimmedData.map { String(format: "%02X", $0) }.joined().uppercased())")
                 self.session?.invalidate()
+                DispatchQueue.main.async {
+                    self.saveSensorData(data: trimmedData)
+                    self.navigationController?.pushViewController(ReadSuccessController(), animated: true)
+                }
             }
         }
         readNextBlock()
+    }
+    
+    func saveSensorData(data: Data) {
+        DispatchQueue.main.async {
+            let writeData = UserDefaults.standard.data(forKey: "writeData")!
+            let samplingRates = UserDefaults.standard.array(forKey: "samplingRates")!
+            let numberOfSamples = Int(writeData[4])
+            let sensorType = (writeData[2] == 4) ? "Light" : "Temperature"
+            let samplingRateIndex = Int(writeData[3])
+            let samplingRate = samplingRates[samplingRateIndex] as! Double
+            
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            
+            let sensorDataEntity = SensorData(context: context)
+            sensorDataEntity.timestamp = Date()
+            sensorDataEntity.sensorType = sensorType
+            sensorDataEntity.sampleCount = Int16(numberOfSamples)
+            sensorDataEntity.samplingRate = samplingRate
+            sensorDataEntity.sensorData = data
+            
+            do {
+                try context.save()
+                print("Sensor data saved successfully.")
+            } catch {
+                print("Failed to save sensor data: \(error.localizedDescription)")
+            }
+        }
     }
 }
