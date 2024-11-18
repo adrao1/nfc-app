@@ -270,6 +270,16 @@ extension Read2Controller: NFCTagReaderSessionDelegate {
                 }
             }
         }
+        tag.readSingleBlock(requestFlags: [.highDataRate, .address], blockNumber: 0) { (data, error) in
+            if let error = error {
+                print("Error reading block \(currentBlock): \(error.localizedDescription)")
+                self.session?.invalidate()
+                return
+            }
+            
+            let hexString = data.map { String(format: "%02X", $0) }.joined()
+            print("Data read from block 0 in hex: \(hexString)")
+        }
         readNextBlock()
     }
     
