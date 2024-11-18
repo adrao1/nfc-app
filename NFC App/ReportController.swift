@@ -131,7 +131,7 @@ class ReportController: UIViewController {
         
         var voltages: [Double] = []
         for i in stride(from: 0, to: data.count, by: 2) {
-            let rawValue = Int16(data[i]) | (Int16(data[i + 1]) << 8)
+            let rawValue = UInt16(data[i]) | (UInt16(data[i + 1]) << 8)
             let adcValue = Double(rawValue)
             let voltage = (adcValue / maxADCValue) * scaleFactor
             voltages.append(voltage)
