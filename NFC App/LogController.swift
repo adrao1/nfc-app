@@ -17,17 +17,23 @@ class LogController: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TimestampCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell", for: indexPath) as! LogCell
         
         let sensorData = sensorDataArray[indexPath.row]
-        if let timestamp = sensorData.timestamp {
-            let formattedDate = DateFormatter.localizedString(from: timestamp, dateStyle: .medium, timeStyle: .short)
-            cell.textLabel?.text = formattedDate
-        } else {
-            cell.textLabel?.text = "No Timestamp Available"
-        }
+        
+        let formattedDate = DateFormatter.localizedString(from: sensorData.timestamp!, dateStyle: .medium, timeStyle: .short)
+        let sensorType = sensorData.sensorType!
+        let samplingRate = sensorData.samplingRate
+        let numberOfSamples = sensorData.sampleCount
+        let details = "Type: \(sensorType), Rate: \(samplingRate) Hz, Samples: \(numberOfSamples)"
+        
+        cell.configure(timestamp: formattedDate, details: details)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tabBarController?.selectedIndex = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +48,7 @@ class LogController: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TimestampCell")
+        tableView.register(LogCell.self, forCellReuseIdentifier: "LogCell")
         
         self.view.addSubview(tableView)
         
