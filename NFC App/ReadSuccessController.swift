@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ReadSuccessController: UIViewController {
 
@@ -45,6 +46,20 @@ class ReadSuccessController: UIViewController {
     }
     
     @objc func goToReportButtonTapped() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<SensorData> = SensorData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let sensorData = try context.fetch(fetchRequest).first
+            if let reportController = tabBarController?.viewControllers?.first as? ReportController {
+                reportController.selectedSensorData = sensorData
+            }
+        } catch {
+            print("Failed to fetch latest sensor data: \(error)")
+        }
+        
         tabBarController?.selectedIndex = 0
         navigationController?.popToRootViewController(animated: false)
     }

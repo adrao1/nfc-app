@@ -10,6 +10,8 @@ import Charts
 import CoreData
 
 class ReportController: UIViewController {
+    var selectedSensorData: SensorData?
+    
     let greetingLabel = UILabel()
     let scatterChartView = ScatterChartView()
     let sensorTypeLabel = UILabel()
@@ -116,10 +118,14 @@ class ReportController: UIViewController {
     }
     
     func displayChart() {
-       if let latestSensorData = fetchLatestSensorData() {
-            populateChart(with: latestSensorData)
+        if let sensorData = selectedSensorData {
+            populateChart(with: sensorData)
         } else {
-            displayEmptyChart()
+            if let latestSensorData = fetchLatestSensorData() {
+                populateChart(with: latestSensorData)
+            } else {
+                displayEmptyChart()
+            }
         }
     }
     

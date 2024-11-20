@@ -25,7 +25,7 @@ class LogController: UIViewController, UITableViewDelegate, UITableViewDataSourc
         let sensorType = sensorData.sensorType!
         let samplingRate = sensorData.samplingRate
         let numberOfSamples = sensorData.sampleCount
-        let details = "Type: \(sensorType), Rate: \(samplingRate) Hz, Samples: \(numberOfSamples)"
+        let details = "Type: \(sensorType), Rate: \(samplingRate) sec/sample, Samples: \(numberOfSamples)"
         
         cell.configure(timestamp: formattedDate, details: details)
         
@@ -33,6 +33,9 @@ class LogController: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let reportController = tabBarController?.viewControllers?.first as? ReportController {
+            reportController.selectedSensorData = sensorDataArray[indexPath.row]
+        }
         tabBarController?.selectedIndex = 0
     }
     
