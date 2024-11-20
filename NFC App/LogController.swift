@@ -30,6 +30,10 @@ class LogController: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchSensorData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BackgroundColor")

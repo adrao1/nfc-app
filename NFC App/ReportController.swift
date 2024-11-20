@@ -17,6 +17,7 @@ class ReportController: UIViewController {
     let numberOfSamplesLabel = UILabel()
     
     override func viewWillAppear(_ animated: Bool) {
+        greetingLabel.text = "Good \(getTime()) \(UserDefaults.standard.string(forKey: "userName")!)"
         super.viewWillAppear(animated)
         displayChart()
     }
