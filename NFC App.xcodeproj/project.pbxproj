@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02728AF52CE7EBD000C4872C /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02728AF42CE7EBD000C4872C /* LoginController.swift */; };
 		028C69C72CE7A35600B6860A /* ReadFailedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028C69C62CE7A35600B6860A /* ReadFailedController.swift */; };
 		029054292CE73E040015BE5D /* Read1Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029054282CE73E040015BE5D /* Read1Controller.swift */; };
 		0290542B2CE73E310015BE5D /* LogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290542A2CE73E310015BE5D /* LogController.swift */; };
@@ -259,19 +258,6 @@
 			);
 			name = "NFC AppUITests";
 			productName = "NFC AppUITests";
-			productReference = 02C5182B2CB87693003EBD35 /* NFC AppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		02C518032CB87692003EBD35 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
-				TargetAttributes = {
 					02C5180A2CB87692003EBD35 = {
 						CreatedOnToolsVersion = 15.4;
 					};
