@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FKf-Ln-fDN">
-                                <rect key="frame" x="20" y="175" width="353" height="330"/>
+                                <rect key="frame" x="20" y="175" width="353" height="260"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSS-3q-URN" userLabel="ScanButton">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -69,19 +69,6 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <segue destination="sdP-Cc-SbY" kind="show" id="Tue-fj-yRk"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vk1-mi-xCH" userLabel="WriteMultipleButton">
-                                        <rect key="frame" x="0.0" y="280" width="353" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="JIe-Ol-v28"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Write Multiple Blocks">
-                                            <color key="baseBackgroundColor" name="ButtonBackgroundColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <segue destination="w2h-7r-Shb" kind="show" id="xLL-WX-Xan"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -387,7 +374,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="f5C-Se-gTT" userLabel="VStack1">
-                                <rect key="frame" x="20" y="175" width="353" height="272"/>
+                                <rect key="frame" x="20" y="79" width="353" height="272"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1NC-VI-JqP" userLabel="HStack1">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
@@ -519,7 +506,7 @@
             <color red="0.0078431372549019607" green="0.65098039215686276" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
